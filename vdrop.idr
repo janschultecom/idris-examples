@@ -7,4 +7,5 @@ vdrop Z v = v
 vdrop (S k) (x::xs) = vdrop k xs
 
 main : IO ()
+-- BOOOM!
 main = putStrLn (show (vdrop 6 (1 :: 2 :: 3 :: 4 :: 5 :: Nil)))
