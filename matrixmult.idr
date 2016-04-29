@@ -29,7 +29,7 @@ mult_vect_mat {n = (S k)} xs (y :: ys) = (mult_vects xs y) :: mult_vect_mat xs y
 mult_mat : Num a => Matrix l m a -> Matrix m k a -> Matrix l k a
 mult_mat [] [] = []
 mult_mat [] (x :: xs) = []
-mult_mat (x :: xs) as = let transposed = transpose_vec as in 
+mult_mat (x :: xs) as = let transposed = transpose_vec as in
                            (mult_vect_mat x transposed) :: mult_mat xs as
 
 testMatrixA : Matrix 4 3 Nat
