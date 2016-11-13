@@ -57,11 +57,33 @@ parsePrefix (leftSchema .+. rightSchema) input = case parsePrefix leftSchema inp
                                                                                    Nothing => Nothing
                                                                                    Just (r_val, input'') => Just ((l_val,r_val), input'')
 
+parseSchema : List String -> Maybe Schema
+parseSchema ("String" :: xs) 
+  = case xs of 
+         [] => Just SString
+         _ => case parseSchema xs of 
+                   Nothing => Nothing
+                   Just right_schema => Just (SString .+. right_schema)
+parseSchema ("Int" :: xs) 
+  = case xs of 
+         [] => Just SInt
+         _  => case parseSchema xs of 
+                    Nothing => Nothing
+                    Just right_schema => Just (SInt .+. right_schema)
+parseSchema _ = Nothing
+
+
+
 parseBySchema : (schema:Schema) -> String -> Maybe (SchemaType schema)
 parseBySchema schema input = case parsePrefix schema input of
                                    Just (res,"") => Just res
                                    Just _ => Nothing
                                    Nothing => Nothing
+
+setSchema : (store : DataStore) -> Schema -> Maybe DataStore
+setSchema store schema = case size store of
+                              Z => Just (MkData schema _ [])
+                              S k => Nothing
 
 parseCommand : (schema:Schema) -> (cmd : String) -> (args : String) -> Maybe (Command schema)
 parseCommand schema "add" rest = case parseBySchema schema rest of
@@ -73,6 +95,9 @@ parseCommand schema "get" val = case all isDigit (unpack val) of
                             True => Just (Get (cast val))
 parseCommand schema "quit" "" = Just Quit
 parseCommand schema "size" "" = Just Size
+parseCommand schema "schema" rest = case parseSchema (words rest) of 
+                                         Nothing => Nothing
+                                         Just schemaok => Just (SetSchema schemaok)
 parseCommand _ _ _ = Nothing
 
 parse : (schema:Schema) -> (input : String) -> Maybe (Command schema)
@@ -105,6 +130,9 @@ searchEntry value store @ (MkData size items) = let search_result = searchEntryH
 -}
 
 processCmd : (store:DataStore) -> (command : Command (schema store)) -> Maybe (String, DataStore)
+processCmd store (SetSchema schema') = case setSchema store schema' of
+                                            Nothing => Just ("Can't update schema\n", store)
+                                            Just store' => Just ("OK\n", store')
 processCmd store (Add value) = Just ("ID " ++ show (size store) ++ "\n", addToStore store value)
 processCmd store (Get pos)  = getEntry pos store
 processCmd store Quit = Nothing
