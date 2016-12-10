@@ -7,6 +7,21 @@ area (Triangle base height) = 0.5 * base * height
 area (Rectangle length height) = length * height
 area (Circle radius) = pi * radius * radius
 
+Eq Shape where
+  (==) (Triangle w h) (Triangle w' h') =
+    w == w' && h == h'
+  (==) (Rectangle w h) (Rectangle w' h') =
+    w == w' && h == h'
+  (==) (Circle r) (Circle r') =
+    r == r'
+  (==) _ _ = False
+
+Ord Shape where
+  compare first second = compare (area first) (area second)
+
+testShapes : List Shape
+testShapes = [Circle 3, Triangle 3 9, Rectangle 2 6, Circle 4, Rectangle 2 7]
+
 data Picture = Primitive Shape
              | Combine Picture Picture
              | Rotate Double Picture
@@ -50,7 +65,7 @@ biggestTriangle_helper : (p : Picture) -> (size : Maybe Double) -> Maybe Double
 biggestTriangle_helper (Primitive tri @ (Triangle x y)) Nothing = Just (area tri)
 biggestTriangle_helper (Primitive tri @ (Triangle x y)) right_size @ (Just z) = let left_size = Just (area tri) in
                                                                                     maxMaybe left_size right_size
-biggestTriangle_helper (Primitive (Rectangle x y)) size = size 
+biggestTriangle_helper (Primitive (Rectangle x y)) size = size
 biggestTriangle_helper (Primitive (Circle x)) size = size
 biggestTriangle_helper (Combine left right) size = let left_size = biggestTriangle_helper left size
                                                        right_size = biggestTriangle_helper right size in
