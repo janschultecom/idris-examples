@@ -19,6 +19,18 @@ read_vect = do x <- getLine
                   else do MkVect _ xs <- read_vect
                           pure (MkVect _ (x :: xs))
 
+Show a => Show (Vect n a) where
+  show [] = ""
+  show (x :: xs) = show x ++ show xs
+
 printVect : Show a => VectUnknown a -> IO ()
-printVect (MkVect len xs)
-  = putStrLn (show xs Strings.++ " (length " Strings.++ show len Strings.++ ")")
+printVect (MkVect len xs) = let xss : String = show xs
+                                lengths : String = show len in
+                                putStrLn (xss ++ " (length " ++ lengths ++ ")")
+
+Eq a => Eq (Vect n a) where
+  (==) [] [] = True
+  (==) (x :: xs) (y :: ys) = case x == y of
+                                  True => xs == ys
+                                  False => False
+

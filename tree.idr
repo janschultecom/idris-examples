@@ -21,3 +21,9 @@ treeToList Empty = []
 treeToList (Node left x right) = let leftList  = (treeToList left) 
                                      rightList = x :: treeToList right 
                                      in leftList ++ rightList
+
+Foldable Tree where
+  foldr func acc Empty = acc
+  foldr func acc (Node left value right) = let leftFold = foldr func acc left 
+                                               rightFold = foldr func leftFold right in
+                                               func value rightFold
