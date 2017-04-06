@@ -5,5 +5,5 @@ say : Sentence "Hello World!" -> IO ()
 say _ = printLn "Hello World!"
 
 main : IO ()
-main = say ( Phrase "Hello World!" )
+main = say $ Phrase "Hello World!" 
 
