@@ -8,4 +8,4 @@ vtake (S k) (x::xs) = x :: (vtake k xs)
 
 main : IO ()
 -- BOOM!
-main = putStrLn (show (vtake 6 (1 :: 2 :: 3 :: 4 :: 5 :: Nil)))
+main = putStrLn (show (vtake 5 (1 :: 2 :: 3 :: 4 :: 5 :: Nil)))

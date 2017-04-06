@@ -1,7 +1,7 @@
-data EqStr : (s1:String) -> (s2:String) -> Type where
-  Phrase : (s:String) -> EqStr s s 
+data Sentence : (s:String) -> Type where
+  Phrase : (s:String) -> Sentence s 
 
-say : EqStr "Hello World!" "Hello World!" -> IO ()
+say : Sentence "Hello World!" -> IO ()
 say _ = printLn "Hello World!"
 
 main : IO ()

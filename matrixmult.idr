@@ -32,7 +32,8 @@ mult_mat [] (x :: xs) = []
 mult_mat (x :: xs) as = let transposed = transpose_vec as in
                            (mult_vect_mat x transposed) :: mult_mat xs as
 
-testMatrixA : Matrix 4 3 Nat
+testMatrixA : Matrix 4 2 Nat
+--testMatrixA = ( 1 :: 2 :: 3 :: Nil) :: ( 10 :: 20 :: 30 :: Nil) :: (7 :: 8 :: 9 :: Nil) :: (2 :: 4 :: 6 :: Nil) :: Nil
 testMatrixA = ( 1 :: 2 :: 3 :: Nil) :: ( 10 :: 20 :: 30 :: Nil) :: (7 :: 8 :: 9 :: Nil) :: (2 :: 4 :: 6 :: Nil) :: Nil
 
 testMatrixB : Matrix 3 4 Nat

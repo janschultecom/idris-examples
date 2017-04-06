@@ -34,4 +34,4 @@ toFormat (c :: chars) = case toFormat chars of
                              fmt => Lit (strCons c "") fmt
 
 printf : (fmt : String) -> PrintfType (toFormat (unpack fmt))
-printf fmt = printfFmt _ "" 
+printf fmt = printfFmt _ ""

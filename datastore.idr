@@ -55,8 +55,8 @@ getEntry pos store = let store_items = items store in
 
 searchEntryHelper : (searchStr : String) -> (store : Vect n String) -> (currentResults : List (Nat,String)) -> List (Nat, String)
 searchEntryHelper searchStr [] res = res
-searchEntryHelper {n = S k} searchStr (x :: xs) res = 
-  let newResults = 
+searchEntryHelper {n = S k} searchStr (x :: xs) res =
+  let newResults =
     case Strings.isInfixOf searchStr x of
          True => (k,x) :: res
          False => res

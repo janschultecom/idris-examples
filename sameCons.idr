@@ -21,6 +21,17 @@ myReverse (x :: xs) = reverseProof (myReverse xs ++ [x]) where
                       reverseProof : Vect (len + 1) elem -> Vect (S len) elem
                       reverseProof {len} result = rewrite plusCommutative 1 len in result
 
+append_rhs_2 : Vect (S (m + len)) elem -> Vect (plus m (S len)) elem
+append_rhs_2 {m} {len} xs = rewrite sym (plusSuccRightSucc m len) in xs
+
 append : Vect n elem -> Vect m elem -> Vect (m + n) elem
 append {m} [] ys = rewrite plusZeroRightNeutral m in ys
-append (x :: xs) ys = ?append_rhs_2
+append (x :: xs) ys = append_rhs_2 (x :: append xs ys)
+
+myPlusCommutes : (n : Nat) -> (m : Nat) -> n + m = m + n
+myPlusCommutes Z m = let result = plusZeroRightNeutral m in
+                        sym result 
+myPlusCommutes (S k) m = let result = plusSuccRightSucc k m 
+                             symresult = sym result
+                         in
+                                     ?usCommutes_rhs_2
