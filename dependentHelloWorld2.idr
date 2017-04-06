@@ -1,7 +1,7 @@
-greet : (=) "Hello World!" "Hello World!" -> IO ()
-greet _ = printLn "Hello World!"
+say : (=) "Hello World!" "Hello World!" -> IO ()
+say _ = printLn "Hello World!"
 
 main : IO ()
-main = greet $ Refl { x = "Hello World!" } 
+main = say $ Refl { x = "Hello World!" } 
 
 
