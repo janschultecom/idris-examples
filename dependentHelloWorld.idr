@@ -1,8 +1,8 @@
-data Sentence : (s:String) -> Type where
+data Sentence : String -> Type where
   Phrase : (s:String) -> Sentence s 
 
 say : Sentence "Hello World!" -> IO ()
-say {s} _ = printLn s
+say _ = printLn "Hello World!"
 
 main : IO ()
 main = say ( Phrase "Hello World!" )
